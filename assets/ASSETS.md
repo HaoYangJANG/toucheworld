@@ -1,0 +1,15 @@
+# TouchéWorld page assets
+
+- Cinematic landscape video: the CloudFront URL supplied by the user in the Aethera hero prompt. It is embedded directly and has not been downloaded.
+- Research showcase/comparison videos: original files from the user's portable showcase package.
+- Instrument Serif and Inter: Google Fonts, bundled locally with SIL Open Font License texts in `licenses/`.
+- `reaching-hand.png`: generated transparent first-person hand asset using the built-in image generation tool. It replaces the initial upright pointing pose and synthetic arm.
+- `reaching-hand-touch.png`: matching edited pose, crossfaded on press so the fingers curl toward the scene.
+
+## Reaching hand generation prompt
+
+Use case: photorealistic-natural. Asset type: transparent cutout sprite of ONLY a realistic adult right hand for an interactive first-person website cursor. A first-person POV hand REACHING FORWARD AWAY FROM THE VIEWER INTO A LANDSCAPE, seen from above and behind the hand at a shallow angle, dorsal back of hand visible, strongly foreshortened fingers extending toward the upper left into depth. Natural relaxed reaching pose: index and middle finger extend forward nearly parallel in a gentle curve, ring and little fingers slightly bent, thumb relaxed to the side. This is NOT a raised hand, NOT a vertical pointing index finger, NOT a stop gesture. The wrist is close to the camera at lower right, fingertips farther away toward upper left. The hand should look like it is about to brush grass or touch a leaf ahead of the viewer. Full hand with all five anatomically correct digits, a tiny bit of wrist only; absolutely NO FOREARM and NO ARM. Wide landscape framing, hand travels diagonally from wrist at lower-right to fingertips at upper-left; silhouette is wide and shallow, not tall. Soft warm daylight consistent with a sunny meadow, photoreal skin pores, subtle knuckles and nails, no jewelry or sleeves. Isolated on a truly transparent background, no grass or objects, no text, no shadows cast outside the silhouette. Keep wrist end clean with a subtle natural edge, no long skin tube. Fingertips must be visible and in focus. High realism, no extra fingers.
+
+## Touch pose edit prompt
+
+Edit this exact transparent cutout hand to create the second frame of a subtle touch gesture for a website. Preserve canvas 1536x1024, exact wrist and palm position, exact skin texture/color, lighting, camera perspective, scale and transparent background. Change ONLY the fingertips and finger joints: index and middle fingers bend slightly downward into the scene as if gently brushing a flower or touching a surface, ring and little fingers curl just a little in sympathy, thumb stays almost the same. This is a delicate reaching-to-touch gesture, not a fist, not a pinch, not a vertical finger. Keep hand anatomy correct and photorealistic, fingertips remain toward upper-left and wrist lower-right, zero forearm. The rest of the hand and all placement must match the source so the two transparent images can crossfade as animation frames. No objects, no flowers, no text or background.

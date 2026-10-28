@@ -1,0 +1,68 @@
+/* A photographic first-person hand. The native cursor and controls stay usable. */
+.hand-cursor-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+  contain: layout style paint;
+}
+
+.hc-sprite {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 230px;
+  height: 230px;
+  will-change: transform;
+}
+
+.hc-hand-art {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.hc-gesture {
+  position: relative;
+  transform-origin: var(--hc-pivot-x, 30px) var(--hc-pivot-y, 10px);
+  transform: translate3d(var(--hc-align-x, 0px), var(--hc-align-y, 0px), 0);
+  filter: drop-shadow(1px var(--hc-shadow-y, 5px) var(--hc-shadow-blur, 7px) rgba(38, 29, 19, .13));
+}
+
+.hc-photo {
+  display: block;
+  width: 230px;
+  height: auto;
+  object-fit: contain;
+  max-width: none;
+  -webkit-user-drag: none;
+  opacity: calc(1 - var(--hc-pressure, 0));
+}
+
+.hc-touch-photo { position: absolute; top: 0; left: 0; opacity: var(--hc-pressure, 0); }
+.hand-cursor-layer[data-contact="water"] .hc-gesture {
+  filter: drop-shadow(0 var(--hc-shadow-y, 3px) var(--hc-shadow-blur, 4px) rgba(40, 71, 75, .19));
+}
+.hand-cursor-layer[data-contact="glyph"] .hc-gesture {
+  filter: drop-shadow(0 var(--hc-shadow-y, 2px) var(--hc-shadow-blur, 3px) rgba(36, 60, 42, .18));
+}
+
+#hand-toggle[aria-pressed="false"] { opacity: .64; }
+#hand-toggle[hidden] { display: none !important; }
+#hand-toggle[data-mouse="true"] { display: flex !important; }
+
+.touche-reaching .cinematic-hero,
+.touche-reaching .hero-background,
+.touche-reaching .video-wash { cursor: none; }
+.touche-reaching .cinematic-hero a,
+.touche-reaching .cinematic-hero button { cursor: pointer; }
+
+@media (hover: none), (pointer: coarse) {
+  .hand-cursor-layer:not([data-mouse="true"]) { display: none !important; }
+  #hand-toggle:not([data-mouse="true"]) { display: none !important; }
+}
