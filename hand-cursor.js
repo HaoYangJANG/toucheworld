@@ -276,13 +276,34 @@
     syncToggle(); requestFrame();
   }
 
+  function loadPhoto(url, onLoad, onError) {
+    function request(retry) {
+      const image = new Image();
+      image.decoding = 'async';
+      const finish = () => {
+        clearTimeout(timeout);
+        image.onload = image.onerror = null;
+      };
+      const fail = () => {
+        finish();
+        if (retry) onError?.();
+        else setTimeout(() => request(true), 350);
+      };
+      const timeout = setTimeout(fail, 5000);
+      image.onload = () => { finish(); onLoad(image); };
+      image.onerror = fail;
+      const source = new URL(url, document.baseURI);
+      if (retry && source.origin === location.origin) source.searchParams.set('retry', '1');
+      image.src = source.href;
+    }
+    request(false);
+  }
+
   /** Geometry accepts displayed dimensions, fingertip origin, and wrist fade. */
   function setImage(url, geometry = {}, onError) {
     if (!url || !photo) return;
     imagesRequested = true;
-    const image = new Image();
-    image.decoding = 'async';
-    image.onload = () => {
+    loadPhoto(url, image => {
       const reachingPose = url.includes('reaching-hand');
       photoWidth = geometry.width || (reachingPose ? 270 : 230);
       photoHeight = geometry.height || photoWidth * image.naturalHeight / image.naturalWidth;
@@ -305,30 +326,28 @@
       photo.src = image.src; imageReady = true;
       layer.dataset.pose = geometry.pose || 'reach';
       requestFrame();
-    };
-    if (onError) image.onerror = onError;
-    image.src = url;
+    }, onError);
   }
 
-  function setTouchImage(url) {
+  function setTouchImage(url, onError) {
     if (!url || !touchPhoto) return;
-    const image = new Image();
-    image.decoding = 'async';
-    image.onload = () => { touchPhoto.src = image.src; layer.classList.add('has-touch-pose'); };
-    image.src = url;
+    loadPhoto(url, image => {
+      touchPhoto.src = image.src;
+      layer.classList.add('has-touch-pose');
+    }, onError);
   }
 
   function ensureImages() {
     if (imagesRequested || configuredImage === 'none' || !allowed()) return;
     imagesRequested = true;
     if (configuredImage && configuredImage !== 'auto') setImage(configuredImage);
-    else setImage('assets/reaching-hand.png', {}, () => {
+    else setImage('assets/reaching-hand.webp', {}, () => {
       setImage('assets/first-person-hand.png', {
         width: 184.32, height: 276.48, tipX: 88.2, tipY: 7.2,
         fadeStart: 61, fadeEnd: 70, pose: 'fallback'
       });
     });
-    setTouchImage('assets/reaching-hand-touch.png');
+    setTouchImage('assets/reaching-hand-touch.webp', () => setTouchImage('assets/reaching-hand-touch.png'));
   }
 
   function init() {
